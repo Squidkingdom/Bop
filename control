@@ -1,0 +1,8 @@
+Package: com.squidkingdom.bop
+Name: Bop
+Depends: mobilesubstrate
+Version: 1.2
+Architecture: iphoneos-arm
+Description: Control music on your device using the hardware buttons.
+Author: Brady <oskiekid@gmail.com>
+Section: Tweaks
