@@ -70,3 +70,5 @@ packages/
 .DS_Store
 
 .theos/
+
+Makefile
