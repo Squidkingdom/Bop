@@ -147,6 +147,5 @@ static void loadPrefs() {
 }
 
 %ctor {
-    	CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)loadPrefs, CFSTR("com.squidkingdom.bop/settingschanged"), NULL, CFNotificationSuspensionBehaviorCoalesce);
-    	loadPrefs();
+	loadPrefs();
 }

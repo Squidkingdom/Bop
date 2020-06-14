@@ -68,3 +68,5 @@ iOSInjectionProject/
 packages/
 
 .DS_Store
+
+.theos/
