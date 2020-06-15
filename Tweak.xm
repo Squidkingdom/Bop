@@ -9,7 +9,7 @@ static NSString *safeModeSequence = @"SSUDUD";
 static id sharedInstance;
 static BOOL tweakEnabled = YES;
 static BOOL isRunning = NO;
-static NSString *pauseMusicSequence = @"V";
+//static NSString *pauseMusicSequence = @"V";
 
 static void triggerButton(char button) {
 	if (tweakEnabled && !isRunning) {
@@ -141,11 +141,11 @@ NSTimeInterval lastPress;
 
 
 
-static void loadPrefs() {
-    NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"com.squidkingdom.bop.defaults"];
-		pauseMusicSequence = [[prefs objectForKey:@"pauseMusicSequence"] uppercaseString];
-}
+//static void loadPrefs() {
+  //  NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"com.squidkingdom.boppreferences.defaults"];
+	//	pauseMusicSequence = [[prefs objectForKey:@"pauseMusicSequence"] uppercaseString];
+//}
 
 %ctor {
-	loadPrefs();
+//loadPrefs();
 }

@@ -5,9 +5,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleExecutable</key>
-	<string>BopPrefs</string>
+	<string>BopPreferences</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.squidkingdom.bopprefs</string>
+	<string>com.squidkingdom.boppreferences</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundlePackageType</key>

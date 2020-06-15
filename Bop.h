@@ -1,5 +1,7 @@
 #import <Foundation/Foundation.h>
 #import <spawn.h>
+#import <MediaRemote.h>
+
 
 @interface Bop: NSObject
 -(id)init;
