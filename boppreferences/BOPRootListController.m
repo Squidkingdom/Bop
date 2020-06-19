@@ -58,10 +58,12 @@ appearanceSettings.navigationBarBackgroundColor = NAVBG_COLOR;
     return _specifiers;
 }
 - (void) respring {
-    /*pid_t pid;
-     * const char* args[] = {"killall", "backboardd", NULL};
-     * posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL); */
-    [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=You%20up%3F"]];
+  pid_t pid;
+		const char* args[] = {"killall", "-9", "SpringBoard", NULL};
+    [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Bop"]];
+
+		posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
+
 }
 
 
@@ -73,27 +75,28 @@ appearanceSettings.navigationBarBackgroundColor = NAVBG_COLOR;
 
 @implementation LifeguardBigTextCell
 
-float cellHeight = 200.0f;
+//float cellHeight = 4000.0f;
 
 - (id)initWithSpecifier:(PSSpecifier *)specifier {
+
 	self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell" specifier:specifier];
 	if (self) {
-		_label = [[UILabel alloc] initWithFrame:CGRectMake(16, 16, self.frame.size.width - 32, cellHeight - 48)];
+		_label = [[UILabel alloc] initWithFrame:CGRectMake(16, 100, self.frame.size.width - 32, 4000)];
 		[_label setLineBreakMode:NSLineBreakByWordWrapping];
-		[_label setNumberOfLines:0];
+		[_label setNumberOfLines:7];
 		[_label setText:@"H - Home Button\nL - Lock Button\nU - Volume Up Button\nD - Volume Down Button\nS - Mute Switch\nP - Volume Down\nV - Both Vol. Buttons"];
 		[_label sizeToFit];
 		[self addSubview:_label];
 
-		UILabel *_label2 = [[UILabel alloc] initWithFrame:CGRectMake(16, _label.frame.size.height + 16, self.frame.size.width - 32, cellHeight - 48)];
+		UILabel *_label2 = [[UILabel alloc] initWithFrame:CGRectMake(16, 100, self.frame.size.width - 32, 4000)];
 		[_label2 setLineBreakMode:NSLineBreakByWordWrapping];
-		[_label2 setNumberOfLines:0];
+		[_label2 setNumberOfLines:7];
 		[_label2 setText:@"Write a button sequence using the coresponding characters above.\n\nPatterns are not case sensitive. To disable a sequence, leave it blank."];
 		[_label2 setFont:[UIFont systemFontOfSize:10]];
 		[_label2 sizeToFit];
 		[self addSubview:_label2];
 
-		cellHeight = _label.frame.size.height + _label2.frame.size.height + 48;
+	//	cellHeight = _label.frame.size.height + _label2.frame.size.height + 48;
 
 	}
 	return self;
