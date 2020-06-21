@@ -36,13 +36,18 @@ appearanceSettings.navigationBarBackgroundColor = NAVBG_COLOR;
     if (self) {
         HBAppearanceSettings * appearanceSettings =
             [[HBAppearanceSettings alloc] init];
-        appearanceSettings.tableViewCellSeparatorColor = [UIColor orangeColor];
-        appearanceSettings.navigationBarTintColor = [UIColor blackColor];
-        appearanceSettings.navigationBarTitleColor = [UIColor redColor];//THEME_COLOR
-        appearanceSettings.statusBarTintColor = [UIColor greenColor];
-        appearanceSettings.tintColor = [UIColor blueColor];
-        appearanceSettings.navigationBarBackgroundColor = [UIColor purpleColor];
-				appearanceSettings.largeTitleStyle = HBAppearanceSettingsLargeTitleStyleAlways;
+        appearanceSettings.tableViewCellSeparatorColor = [UIColor OUTLINE];
+        if(@available(iOS 13, *)){
+          appearanceSettings.navigationBarTintColor = [UIColor labelColor];
+
+        }else{
+          appearanceSettings.navigationBarTintColor = [UIColor blackColor];
+
+        }
+        appearanceSettings.navigationBarTitleColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+        appearanceSettings.statusBarTintColor = [UIColor blackColor];
+        appearanceSettings.tintColor = [UIColor colorWithRed:0.373 green:0.753 blue:0.914 alpha:1];
+        appearanceSettings.navigationBarBackgroundColor = [UIColor colorWithRed:0.37 green:0.89 blue:0.87 alpha:1];
         self.hb_appearanceSettings = appearanceSettings;
     }
 
