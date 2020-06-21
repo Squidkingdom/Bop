@@ -77,18 +77,34 @@ appearanceSettings.navigationBarBackgroundColor = NAVBG_COLOR;
 
 //float cellHeight = 4000.0f;
 
+ - (UIColor *)coverUp {
+    if (@available(iOS 13.0, *)) {
+        return [UIColor colorWithDynamicProvider:^UIColor * _Nonnull(UITraitCollection * _Nonnull traits) {
+            return traits.userInterfaceStyle == UIUserInterfaceStyleDark ?
+                [UIColor systemBackgroundColor] :
+                [UIColor systemGray6Color];
+        }];
+    } else {
+        return [UIColor TABLE_BG];
+    }
+}
+
 - (id)initWithSpecifier:(PSSpecifier *)specifier {
 
 	self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"Cell" specifier:specifier];
 	if (self) {
-		_label = [[UILabel alloc] initWithFrame:CGRectMake(16, 100, self.frame.size.width - 32, 4000)];
+    UIView *background = [[UIView alloc] initWithFrame:CGRectMake(0, 14, 420, 245)];
+    [background setBackgroundColor:[self coverUp]];
+    background.alpha = 1;
+    [self addSubview:background];
+		_label = [[UILabel alloc] initWithFrame:CGRectMake(16, 25, self.frame.size.width - 32, 100)];
 		[_label setLineBreakMode:NSLineBreakByWordWrapping];
 		[_label setNumberOfLines:7];
 		[_label setText:@"H - Home Button\nL - Lock Button\nU - Volume Up Button\nD - Volume Down Button\nS - Mute Switch\nP - Volume Down\nV - Both Vol. Buttons"];
 		[_label sizeToFit];
 		[self addSubview:_label];
 
-		UILabel *_label2 = [[UILabel alloc] initWithFrame:CGRectMake(16, 100, self.frame.size.width - 32, 4000)];
+		UILabel *_label2 = [[UILabel alloc] initWithFrame:CGRectMake(16, 182, self.frame.size.width - 32, 50)];
 		[_label2 setLineBreakMode:NSLineBreakByWordWrapping];
 		[_label2 setNumberOfLines:7];
 		[_label2 setText:@"Write a button sequence using the coresponding characters above.\n\nPatterns are not case sensitive. To disable a sequence, leave it blank."];
