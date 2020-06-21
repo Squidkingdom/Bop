@@ -7,7 +7,6 @@ include $(THEOS)/makefiles/common.mk
 
 TWEAK_NAME = Bop
 Bop_FILES = Tweak.xm
-Bop_EXTRA_FRAMEWORKS += Cephei CepheiPrefs
 Bop_PRIVATE_FRAMEWORKS = MediaRemote
 
 include $(THEOS_MAKE_PATH)/tweak.mk
