@@ -4,12 +4,20 @@
 #define POWER_BUTTON 104
 #define HOME_BUTTON 101
 
-static NSString *respringSequence = @"UDUD";
-static NSString *safeModeSequence = @"SSUDUD";
-static id sharedInstance;
+ static NSString *pauseMusicSequence = @"";
+ static NSString *skipTrackSequence = @"";
+ static NSString *toggleRepeatSequence = @"";
+ static NSString *f15Sequence = @"";
+ static NSString *b15Sequence = @"";
+ static NSTimer *bopTimer;
+
+
+ static void loadPrefs();
+
+
+id sharedInstance;
 static BOOL tweakEnabled = YES;
 static BOOL isRunning = NO;
-//static NSString *pauseMusicSequence = @"V";
 
 static void triggerButton(char button) {
 	if (tweakEnabled && !isRunning) {
@@ -30,7 +38,6 @@ static void triggerButton(char button) {
 }
 %end
 
-
 //iOS 13.3 and below
 %hook SBFluidSwitcherGestureManager
 -(void)grabberTongueBeganPulling:(id)arg1 withDistance:(double)arg2 andVelocity:(double)arg3  {
@@ -42,12 +49,10 @@ static void triggerButton(char button) {
 
 
 %hook SpringBoard
-
 -(void)_ringerChanged:(struct __IOHIDEvent *)arg1 {
 	triggerButton('S');
 	%orig;
 }
-
 
 -(_Bool)_handlePhysicalButtonEvent:(UIPressesEvent *)arg1 {
 	// type = 101 -> Home button
@@ -92,37 +97,48 @@ static void triggerButton(char button) {
 
 
 @implementation Bop
-
 NSMutableString *sequence = [@"" mutableCopy];
 NSTimeInterval lastPress;
+
++ (id)sharedInstance{
+	return sharedInstance;
+}
 
 -(id)init {
 	lastPress = 0.0;
 	return self;
 }
 
+
+
 -(void)buttonPressed_LG:(char)button {
 
 	NSTimeInterval now = [[NSDate date] timeIntervalSince1970] * 1000;
-	if (now - lastPress > 650.0)
+	if (now - lastPress > 650.0){
 		[sequence setString:@""];
+	} else {
+		if(bopTimer)
+			[bopTimer invalidate];
+	}
 	if (now - lastPress < 100.0)
 		[sequence deleteCharactersInRange:NSMakeRange([sequence length]-1, 1)];
 	lastPress = now;
 
 	[sequence appendFormat:@"%c", button];
-	NSLog(@"[BOP] Sequence:%@ Added:%c" , sequence, button);
-	if ([respringSequence length] >= [safeModeSequence length]) {
-		if ([[sequence copy] containsString: respringSequence])
-			[self respring_LG:NO];
-		else if ([[sequence copy] containsString: safeModeSequence])
-			[self respring_LG:YES];
-	} else {
-		if ([[sequence copy] containsString: safeModeSequence])
-			[self respring_LG:YES];
-		else if ([[sequence copy] containsString: respringSequence])
-			[self respring_LG:NO];
-	}
+	NSLog(@"[BOP] Sequence:%@ Added:%c", sequence, button);
+	bopTimer = [NSTimer scheduledTimerWithTimeInterval:2.0
+    target:self
+    selector:@selector(interpSeq)
+    userInfo:nil
+    repeats:NO];
+}
+-(void)interpSeq {
+
+	if([[sequence copy] isEqualToString: pauseMusicSequence])    {[self pauseMusic];}
+	if([[sequence copy] isEqualToString: skipTrackSequence])     {[self skipTrack];}
+	if([[sequence copy] isEqualToString: toggleRepeatSequence])  {[self repeatMusic];}
+	if([[sequence copy] isEqualToString: f15Sequence])   			   {[self f15Music];}
+	if([[sequence copy] isEqualToString: b15Sequence])  			   {[self b15Music];}
 }
 
 -(void)respring_LG:(BOOL)safeMode {
@@ -136,16 +152,36 @@ NSTimeInterval lastPress;
 		posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
 	}
 }
+-(void)pauseMusic{
+	MRMediaRemoteSendCommand(kMRTogglePlayPause, 0);
+}
+-(void)repeatMusic{
+	MRMediaRemoteSendCommand(kMRToggleRepeat, 0);
+}
+-(void)skipTrack{
+	MRMediaRemoteSendCommand(kMRNextTrack, 0);
+}
+-(void)f15Music{
+	MRMediaRemoteSendCommand(kMRSkipFifteenSeconds, 0);
+}
+-(void)b15Music{
+	MRMediaRemoteSendCommand(kMRGoBackFifteenSeconds, 0);
+}
+-(void)loadPrefs{
+	loadPrefs();
+}
+
 
 @end
 
 
 
-//static void loadPrefs() {
-  //  NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"com.squidkingdom.boppreferences.defaults"];
-	//	pauseMusicSequence = [[prefs objectForKey:@"pauseMusicSequence"] uppercaseString];
-//}
+static void loadPrefs() {
+    NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"com.squidkingdom.boppreferences.defaults"];
+		pauseMusicSequence = [[prefs objectForKey:@"pauseMusicSequence"] uppercaseString];
+		skipTrackSequence = [[prefs objectForKey:@"skipTrackSequence"] uppercaseString];
+}
 
 %ctor {
-//loadPrefs();
+loadPrefs();
 }

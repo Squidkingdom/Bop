@@ -4,5 +4,5 @@ Depends: mobilesubstrate, ws.hbang.common (>= 1.11)
 Version: 1.2
 Architecture: iphoneos-arm
 Description: Control music on your device using the hardware buttons.
-Author: Brady <oskiekid@gmail.com>
+Author: Brady Holland <oskiekid@gmail.com>
 Section: Tweaks

@@ -119,6 +119,8 @@
 				<string>HBPackageNameHeaderCell</string>
 				<key>packageIdentifier</key>
 				<string>com.squidkingdom.bop</string>
+				<key>showVersion</key>
+				<false/>
 				<key>backgroundGradientColors</key>
 				<array>
 					<string>#5FE4DD</string>
@@ -171,7 +173,7 @@
 				<key>label</key>
 				<string>Toggle Repeat:</string>
 				<key>key</key>
-				<string>pauseMusicSequence</string>
+				<string>toggleRepeatSequence</string>
 				<key>noAutoCorrect</key>
 				<true/>
 				<key>defaults</key>

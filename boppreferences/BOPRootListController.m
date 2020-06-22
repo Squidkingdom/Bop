@@ -10,6 +10,10 @@
         self.navigationController.navigationBar.prefersLargeTitles = false;
         self.navigationController.navigationItem.largeTitleDisplayMode =
             UINavigationItemLargeTitleDisplayModeNever;
+            [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Apply"
+                                                                                      style:UIBarButtonItemStylePlain
+                                                                                     target:self
+                                                                                     action:@selector(respring)]];
     }
 }
 
@@ -20,6 +24,11 @@
         self.navigationController.navigationBar.prefersLargeTitles = false;
         self.navigationController.navigationItem.largeTitleDisplayMode =
             UINavigationItemLargeTitleDisplayModeNever;
+
+        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Apply"
+                                                                                      style:UIBarButtonItemStylePlain
+                                                                                     target:self
+                                                                                     action:@selector(respring)]];
     }
 }
 
@@ -44,8 +53,8 @@ appearanceSettings.navigationBarBackgroundColor = NAVBG_COLOR;
           appearanceSettings.navigationBarTintColor = [UIColor blackColor];
 
         }
-        appearanceSettings.navigationBarTitleColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
-        appearanceSettings.statusBarTintColor = [UIColor blackColor];
+        appearanceSettings.navigationBarTitleColor = [UIColor clearColor];
+        appearanceSettings.statusBarTintColor = [UIColor clearColor];
         appearanceSettings.tintColor = [UIColor colorWithRed:0.373 green:0.753 blue:0.914 alpha:1];
         appearanceSettings.navigationBarBackgroundColor = [UIColor colorWithRed:0.37 green:0.89 blue:0.87 alpha:1];
         self.hb_appearanceSettings = appearanceSettings;
@@ -63,11 +72,13 @@ appearanceSettings.navigationBarBackgroundColor = NAVBG_COLOR;
     return _specifiers;
 }
 - (void) respring {
-  pid_t pid;
-		const char* args[] = {"killall", "-9", "SpringBoard", NULL};
-    [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Bop"]];
 
-		posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
+[[Bop sharedInstance] loadPrefs];
+  // pid_t pid;
+	// 	const char* args[] = {"killall", "-9", "SpringBoard", NULL};
+  //   [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Bop"]];
+  //
+	// 	posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
 
 }
 
