@@ -164,24 +164,25 @@
 				<key>defaults</key>
 				<string>com.squidkingdom.boppreferences.defaults</string>
 				<key>default</key>
-				<string>P</string>
+				<string>VUD</string>
 			</dict>
-
 			<dict>
 				<key>cell</key>
 				<string>PSEditTextCell</string>
 				<key>label</key>
-				<string>Toggle Repeat:</string>
+				<string>Previous Track:</string>
 				<key>key</key>
-				<string>toggleRepeatSequence</string>
+				<string>prevTrackSequence</string>
 				<key>noAutoCorrect</key>
 				<true/>
 				<key>defaults</key>
 				<string>com.squidkingdom.boppreferences.defaults</string>
 				<key>default</key>
-				<string>DP</string>
+				<string>VDU</string>
 			</dict>
 
+
+<!--
 			<dict>
 				<key>cell</key>
 				<string>PSEditTextCell</string>
@@ -210,16 +211,9 @@
 				<string>com.squidkingdom.boppreferences.defaults</string>
 				<key>default</key>
 				<string>VU</string>
-			</dict>
+			</dict> -->
 
-			<dict>
-				<key>cell</key>
-				<string>PSButtonCell</string>
-				<key>label</key>
-				<string>Apply Changes</string>
-				<key>action</key>
-				<string>respring</string>
-			</dict>
+
 			<dict>
 				<key>cell</key>
 				<string>PSGroupCell</string>

@@ -135,11 +135,7 @@
 @interface BOPRootListController : HBRootListController
 @end
 
-@interface Bop : NSObject
 
--(void)loadPrefs;
-+(id)sharedInstance;
-@end
 
 @interface LifeguardBigTextCell : PSTableCell{
 	UILabel* _label;

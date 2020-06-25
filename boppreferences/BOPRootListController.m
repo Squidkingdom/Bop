@@ -1,4 +1,5 @@
 #include "BOPRootListController.h"
+#include "../Bop.h"
 
 @implementation BOPRootListController
 
@@ -10,10 +11,10 @@
         self.navigationController.navigationBar.prefersLargeTitles = false;
         self.navigationController.navigationItem.largeTitleDisplayMode =
             UINavigationItemLargeTitleDisplayModeNever;
-            [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Apply"
-                                                                                      style:UIBarButtonItemStylePlain
-                                                                                     target:self
-                                                                                     action:@selector(respring)]];
+          //  [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Apply"
+            //                                                                          style:UIBarButtonItemStylePlain
+                //                                                                     target:self
+              //                                                                       action:@selector(respring)]];
     }
 }
 
@@ -25,10 +26,10 @@
         self.navigationController.navigationItem.largeTitleDisplayMode =
             UINavigationItemLargeTitleDisplayModeNever;
 
-        [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Apply"
-                                                                                      style:UIBarButtonItemStylePlain
-                                                                                     target:self
-                                                                                     action:@selector(respring)]];
+      //  [[self navigationItem] setRightBarButtonItem:[[UIBarButtonItem alloc] initWithTitle:@"Apply"
+      //                                                                                style:UIBarButtonItemStylePlain
+      //                                                                               target:self
+      //                                                                               action:@selector(respring)]];
     }
 }
 
@@ -71,16 +72,16 @@ appearanceSettings.navigationBarBackgroundColor = NAVBG_COLOR;
 
     return _specifiers;
 }
-- (void) respring {
-
-[[Bop sharedInstance] loadPrefs];
-  // pid_t pid;
-	// 	const char* args[] = {"killall", "-9", "SpringBoard", NULL};
-  //   [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Bop"]];
-  //
-	// 	posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
-
-}
+// - (void) respring {
+//   NSLog(@"[Bop] respring called");
+//   [[Bop sharedInstance] loadPrefs];
+//   // pid_t pid;
+// 	// 	const char* args[] = {"killall", "-9", "SpringBoard", NULL};
+//   //   [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Bop"]];
+//   //
+// 	// 	posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
+//
+// }
 
 
 

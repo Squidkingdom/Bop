@@ -3,29 +3,20 @@
 #define VDOWN_BUTTON 103
 #define POWER_BUTTON 104
 #define HOME_BUTTON 101
+bool inited = false;
 
- static NSString *pauseMusicSequence = @"";
- static NSString *skipTrackSequence = @"";
- static NSString *toggleRepeatSequence = @"";
- static NSString *f15Sequence = @"";
- static NSString *b15Sequence = @"";
- static NSTimer *bopTimer;
-
-
- static void loadPrefs();
-
-
+%group tweakStuff
 id sharedInstance;
-static BOOL tweakEnabled = YES;
-static BOOL isRunning = NO;
-
+bool isRunning = NO;
 static void triggerButton(char button) {
-	if (tweakEnabled && !isRunning) {
-		isRunning = YES;
-		if (!sharedInstance) sharedInstance = [[Bop alloc] init];
+  NSLog(@"[Bop] triggerButton");
+  if(!isRunning){
+    isRunning = YES;
 		[sharedInstance buttonPressed_LG:button];
-		isRunning = NO;
-	}
+    isRunning = NO;
+
+  }
+
 }
 
 
@@ -72,6 +63,7 @@ static void triggerButton(char button) {
 			 if (force == 1 && force2 == 1){
 				// NSLog(@"[BOP] Volume");
 				 triggerButton('V');
+
 			}
 			}
 		 if (type+type2 == 207 && force+force2 == 2){
@@ -82,8 +74,10 @@ static void triggerButton(char button) {
 		//	NSLog(@"[BOP] Single button %i", type);
 				if (type == VDOWN_BUTTON)
 					triggerButton('D');
-				else if (type == VUP_BUTTON)
-					triggerButton('U');
+				else if (type == VUP_BUTTON){
+          NSLog(@"[Bop] %i", force);
+  					triggerButton('U');
+        }
 				else if (type == POWER_BUTTON)
 					triggerButton('L');
 				else if (type == HOME_BUTTON)
@@ -96,92 +90,16 @@ static void triggerButton(char button) {
 %end
 
 
-@implementation Bop
-NSMutableString *sequence = [@"" mutableCopy];
-NSTimeInterval lastPress;
 
-+ (id)sharedInstance{
-	return sharedInstance;
-}
-
--(id)init {
-	lastPress = 0.0;
-	return self;
-}
+%end
 
 
-
--(void)buttonPressed_LG:(char)button {
-
-	NSTimeInterval now = [[NSDate date] timeIntervalSince1970] * 1000;
-	if (now - lastPress > 650.0){
-		[sequence setString:@""];
-	} else {
-		if(bopTimer)
-			[bopTimer invalidate];
-	}
-	if (now - lastPress < 100.0)
-		[sequence deleteCharactersInRange:NSMakeRange([sequence length]-1, 1)];
-	lastPress = now;
-
-	[sequence appendFormat:@"%c", button];
-	NSLog(@"[BOP] Sequence:%@ Added:%c", sequence, button);
-	bopTimer = [NSTimer scheduledTimerWithTimeInterval:2.0
-    target:self
-    selector:@selector(interpSeq)
-    userInfo:nil
-    repeats:NO];
-}
--(void)interpSeq {
-
-	if([[sequence copy] isEqualToString: pauseMusicSequence])    {[self pauseMusic];}
-	if([[sequence copy] isEqualToString: skipTrackSequence])     {[self skipTrack];}
-	if([[sequence copy] isEqualToString: toggleRepeatSequence])  {[self repeatMusic];}
-	if([[sequence copy] isEqualToString: f15Sequence])   			   {[self f15Music];}
-	if([[sequence copy] isEqualToString: b15Sequence])  			   {[self b15Music];}
-}
-
--(void)respring_LG:(BOOL)safeMode {
-	[sequence setString:@""];
-	pid_t pid;
-	if (safeMode) {
-		const char* args[] = {"killall", "-SEGV", "SpringBoard", NULL};
-		posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
-	} else {
-		const char* args[] = {"killall", "backboardd", NULL};
-		posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char* const*)args, NULL);
-	}
-}
--(void)pauseMusic{
-	MRMediaRemoteSendCommand(kMRTogglePlayPause, 0);
-}
--(void)repeatMusic{
-	MRMediaRemoteSendCommand(kMRToggleRepeat, 0);
-}
--(void)skipTrack{
-	MRMediaRemoteSendCommand(kMRNextTrack, 0);
-}
--(void)f15Music{
-	MRMediaRemoteSendCommand(kMRSkipFifteenSeconds, 0);
-}
--(void)b15Music{
-	MRMediaRemoteSendCommand(kMRGoBackFifteenSeconds, 0);
-}
--(void)loadPrefs{
-	loadPrefs();
-}
-
-
-@end
-
-
-
-static void loadPrefs() {
-    NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] persistentDomainForName:@"com.squidkingdom.boppreferences.defaults"];
-		pauseMusicSequence = [[prefs objectForKey:@"pauseMusicSequence"] uppercaseString];
-		skipTrackSequence = [[prefs objectForKey:@"skipTrackSequence"] uppercaseString];
-}
 
 %ctor {
-loadPrefs();
+  NSLog(@"[Bop] Ctor");
+  if(!inited)
+  %init(tweakStuff);
+  inited = true;
+  sharedInstance = [[Bop alloc] init];
+  [sharedInstance loadPrefs];
 }

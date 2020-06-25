@@ -9,9 +9,10 @@
 -(void)buttonPressed_LG:(char) button;
 -(void)respring_LG:(BOOL)safeMode;
 -(void)pauseMusic;
--(void)repeatMusic;
+//-(void)repeatMusic;
 -(void)skipTrack;
 -(void)f15Music;
+-(void)prevTrack;
 -(void)b15Music;
 -(void)loadPrefs;
 @end
