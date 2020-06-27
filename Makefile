@@ -1,6 +1,6 @@
 THEOS_DEVICE_IP = 192.168.1.215
 FINAL_BUILD = 1
-FOR_RELEASE= 0
+FOR_RELEASE= 1
 export ARCHS = arm64 arm64e
 export TARGET = iphone:clang:13.0:10.0
 
