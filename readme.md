@@ -11,6 +11,8 @@ Default Sequences:
 
 The idea behind these defaults is that my phone is in the pocket of a sweatshirt.
 
+Supports iOS 10.o - 13.5
+Dependencies: Cephei, Substrate
 To use this tweak, download and install the dep in [releases](https://github.com/Squidkingdom/Bop/releases/), through an iOS package manager such as Cydia, or Zebra.
 
 You can then configure the button sequence for each action in the settings app by typing a string of characters
